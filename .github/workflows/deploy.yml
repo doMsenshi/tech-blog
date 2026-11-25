@@ -1,0 +1,25 @@
+name: Deploy to AWS (S3 + CloudFront)
+
+# main にマージされたら自動公開。マイクロ開発の基本ループ。
+on:
+  push:
+    branches: [main]
+    paths: ['app/**', 'content/**', 'lib/**', 'public/**', 'package.json', 'next.config.mjs']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-northeast-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      - run: aws s3 sync out/ s3://${{ secrets.S3_BUCKET }} --delete
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths "/*"

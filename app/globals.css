@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose-custom h2 { @apply text-2xl font-bold mt-8 mb-4; }
+.prose-custom h3 { @apply text-xl font-bold mt-6 mb-3; }
+.prose-custom p { @apply my-4 leading-8; }
+.prose-custom pre { @apply bg-zinc-900 text-zinc-100 p-4 rounded-lg overflow-x-auto my-6 text-sm; }
+.prose-custom code { @apply bg-zinc-100 px-1.5 py-0.5 rounded text-sm; }
+.prose-custom pre code { @apply bg-transparent p-0; }
+.prose-custom ul { @apply list-disc ml-6 my-4; }
+.prose-custom a { @apply text-blue-600 underline; }
